@@ -1,13 +1,14 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-
+import './stylesheets/App.css';
+import Auth from './components/Auth'
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <div>Hello World</div>
+    <div id="app">
+      <header className="app-header">
+        <div>Shift Management</div>
       </header>
+      {/* ROUTER VIEW */}
+      <Auth></Auth>
     </div>
   );
 }
