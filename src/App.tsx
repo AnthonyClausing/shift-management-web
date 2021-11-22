@@ -1,6 +1,7 @@
 import React from 'react';
 import './stylesheets/App.css';
-import Auth from './components/Auth'
+// import Auth from './components/Auth'
+import Settings from './components/Settings'
 function App() {
   return (
     <div id="app">
@@ -8,7 +9,8 @@ function App() {
         <div>Shift Management</div>
       </header>
       {/* ROUTER VIEW */}
-      <Auth></Auth>
+      {/* <Auth></Auth> */}
+      <Settings></Settings>
     </div>
   );
 }
