@@ -2,6 +2,8 @@
 import { startCase } from 'lodash'
 import React from 'react';
 import Accordion from './Accordion';
+import { RootStateOrAny, useSelector, useDispatch, shallowEqual } from 'react-redux'
+
 function Settings() {
   interface User {
     email: string
@@ -23,7 +25,14 @@ function Settings() {
     name: 'Best Test Electronics Super Store',
     formatted_address: '654 West Montague St Brooklyn, NY 11201',
     display_address: '654 West Montague St',
-  }]
+  }]  
+  const modalState = useSelector((state:RootStateOrAny) => state.modal, shallowEqual)
+  const dispatch = useDispatch()
+  const openGlobalModal = () => {
+    // possible argument for openGlobalModal function -> {name: '', modalProps:{}, modalComponent?: <Component/>}
+    //open global modal
+    dispatch({type: "modal/showModal", payload: true})
+  }
   const usersAccordionContent = function() {
     return (
       // might be table-fixed with key=data_key val=fraction of space for each th
@@ -31,6 +40,11 @@ function Settings() {
         <thead>
           <tr>
             {users[0] && Object.keys(users[0]).map((h, idx) =>  (<th key={idx+1234} className="text-left">{startCase(h)}</th>))}
+          </tr>
+          <tr>
+            <th>
+            <button onClick={() => openGlobalModal()}>CLICK hERE</button>
+              </th>
           </tr>
         </thead>
         <tbody>
