@@ -1,6 +1,7 @@
+ /** @jsxImportSource theme-ui */
 import axios from 'axios';
 import React, { useState } from 'react';
-
+import { Button, ThemeUICSSObject } from 'theme-ui'
 function Auth() {
   enum authType {
     Login = 'login',
@@ -48,51 +49,95 @@ function Auth() {
       formOn: type
     }))
   }
-  const inputClasses : string = "p-1 mx-auto my-4 text-base text-black border outline-none border-gray-400 focus:border-blue-400 rounded"
+  const inputStyles: ThemeUICSSObject = {
+    padding: '0.25rem',
+    marginX: 'auto',
+    marginY: '1rem',
+    fontSize: '1.125rem',
+    lineHeight: '1.5rem',
+    borderWidth: '1px',
+    borderColor: 'gray',
+    '&:focus': {
+      borderColor: 'blue'
+    },
+    borderRadius: '0.25rem'
+  }
+  const authCardStyles: ThemeUICSSObject = {
+    color: 'gray',
+    backgroundColor: 'white',
+    paddingX: '0.5rem',
+    marginTop: '1rem',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center'
+  }
+  const buttonStyles: ThemeUICSSObject = {
+    fontWeight: 'bold',
+    borderRadius: '0.25rem',
+    paddingY: '0.25rem',
+    display: 'block',
+    marginX: 'auto',
+    width: '70%'
+  }
+  const dividerStyles: ThemeUICSSObject = {
+    textAlign: 'center',
+    position: 'relative',
+    borderTopWidth: '1px',
+    borderColor: 'gray',
+    marginTop: '1.25rem',
+    marginX: '0.75rem'
+  }
+  const dividerTextStyles: ThemeUICSSObject = {
+    paddingY: '0',
+    paddingX: '0.5rem',
+    position: 'relative',
+    top: '-1rem',
+    bg: 'red'
+  }
   return (
-    <div id="auth-card" className="text-gray-500 bg-white px-2 mt-4 flex flex-col justify-center">
-      <div className="card-header text-center">
-        hello
+    <div id="auth-card" sx={authCardStyles}>
+      <div id="card-header" sx={{textAlign: 'center'}}>
+        Welcome To Shift Management
       </div>
       <div className="card-content">
         { state.formOn === authType.Login 
         ? (<div id="login-form">
-            <input id="email" onInput={(e) => handleChange(e, authType.Login)} className={inputClasses} type="email" placeholder="Email"></input>
-            <input id="password" onInput={(e) => handleChange(e, authType.Login)} className={inputClasses} type="password" placeholder="Password"></input>
+            <input id="email" onInput={(e) => handleChange(e, authType.Login)} sx={inputStyles} type="email" placeholder="Email"></input>
+            <input id="password" onInput={(e) => handleChange(e, authType.Login)} sx={inputStyles} type="password" placeholder="Password"></input>
             {/* <a>Forgot Password?</a> */}
           </div>) 
         : (<div id="signup-form">
             <label>First Name</label>
-            <input id="firstName" type="text" className={inputClasses} onInput={(e) => handleChange(e, authType.Signup)}/>
+            <input id="firstName" type="text" sx={inputStyles} onInput={(e) => handleChange(e, authType.Signup)}/>
             <label>Last Name</label>
-            <input id="lastName" type="text" className={inputClasses} onInput={(e) => handleChange(e, authType.Signup)}/>
+            <input id="lastName" type="text" sx={inputStyles} onInput={(e) => handleChange(e, authType.Signup)}/>
             <label>Phone Number</label>
-            <input id="phoneNumber" type="phone" className={inputClasses} onInput={(e) => handleChange(e, authType.Signup)}/>
+            <input id="phoneNumber" type="phone" sx={inputStyles} onInput={(e) => handleChange(e, authType.Signup)}/>
             <label>Email</label>
-            <input id="email" type="email" className={inputClasses} onInput={(e) => handleChange(e, authType.Signup)}/>
+            <input id="email" type="email" sx={inputStyles} onInput={(e) => handleChange(e, authType.Signup)}/>
             <label>Password</label>
-            <input id="password" type="text" className={inputClasses} onInput={(e) => handleChange(e, authType.Signup)}/>
+            <input id="password" type="text" sx={inputStyles} onInput={(e) => handleChange(e, authType.Signup)}/>
             <label>Company Name</label>
-            <input id="companyName" className={inputClasses} type="text" />
+            <input id="companyName" sx={inputStyles} type="text" />
           </div>)
         }
       </div>
-      <div className="card-actions ">
+      <div className="card-actions">
         {
         state.formOn === authType.Login ? 
         (<> 
-        <button onClick={loginAction} className="bg-blue-600 text-white rounded font-bold py-1 block mx-auto mt-2 w-8/12">Log In</button>       
-          <div className="text-center relative border-t border-gray-500 mt-5 mx-3">
-            <span className="py-0 px-2 relative -top-4 bg-white">or</span>
+        <Button onClick={loginAction} sx={{...buttonStyles, marginTop: '0.5rem'}}>Log In</Button>       
+          <div sx={dividerStyles}>
+            <span sx={dividerTextStyles}>or</span>
           </div>
-        <button onClick={() => switchToForm(authType.Signup)} className="bg-gray-300 text-black block mx-auto rounded font-bold py-1 w-8/12">Sign Up</button>
+        <Button variant={"secondary"} sx={buttonStyles} onClick={() => switchToForm(authType.Signup)}>Sign Up</Button>
         </>):
         (<>
-        <button onClick={signUpAction} className="bg-blue-600 text-white block mx-auto rounded font-bold py-1 mt-2 w-8/12">Sign Up</button>
-        <div className="text-center relative border-t border-gray-500 mt-5 mx-3">
-          <span className="py-0 px-2 relative -top-4 bg-white rounded-full">Already have an account?</span>
+        <Button variant={"secondary"} sx={{...buttonStyles, marginTop: '0.5rem'}} onClick={signUpAction}>Sign Up</Button>
+        <div sx={dividerStyles}>
+          <span sx={{...dividerTextStyles, borderRadius: '9999px'}}>Already have an account?</span>
         </div>
-        <button onClick={() => switchToForm(authType.Login)} className="bg-gray-300 text-black block mx-auto rounded font-bold py-1 w-8/12">Login</button>
+        <Button sx={buttonStyles} onClick={() => switchToForm(authType.Login)}>Login</Button>
         </>)
       }
       </div>
