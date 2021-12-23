@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 import locationReducer from './slices/locationSlice'
 import modalWrapperReducer from './slices/modalWrapperSlice'
+import userReducer from './slices/userSlice'
 
 const store = configureStore({
    reducer: {
       location: locationReducer,
+      user: userReducer,
       modal: modalWrapperReducer,
    },
 })
