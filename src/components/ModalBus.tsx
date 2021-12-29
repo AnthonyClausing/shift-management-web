@@ -1,6 +1,5 @@
 import React from 'react';
 import ModalWrapper from './ModalWrapper/ModalWrapper'
-import '../stylesheets/Modal.css'
 
 //props take modal details
     // onClose function

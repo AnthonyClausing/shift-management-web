@@ -1,15 +1,15 @@
+ /** @jsxImportSource theme-ui */
 import React from 'react';
-import './stylesheets/App.css';
 // import Auth from './components/Auth'
 import Settings from './components/Settings'
 import ModalBus from './components/ModalBus';
-
+import {Heading, Box} from 'theme-ui'
 function App() {
   return (
     <div id="app">
-      <header className="app-header">
-        <div>Shift Management</div>
-      </header>
+      <Box as="header" sx={{textAlign: 'center'}}>
+        <Heading as='h1'>Shift Management</Heading>
+      </Box>
       {/* ROUTER VIEW */}
       {/* <Auth></Auth> */}
       <Settings></Settings>

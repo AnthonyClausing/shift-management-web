@@ -1,21 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux'
-import store from './store'
-import './stylesheets/index.css';
-import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
+import { Provider } from 'react-redux'
+import { ThemeProvider } from 'theme-ui'
+import store from './store'
+import { theme } from './theme'
+import GlobalStyles from './components/GlobalStyles'
+import App from './App';
+import './stylesheets/fonts.css'
 
-ReactDOM.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <App/>
-    </Provider>
-  </React.StrictMode>,
-  document.getElementById('root')
-);
-
+  ReactDOM.render(
+    <React.StrictMode>
+      <ThemeProvider theme={theme}>
+        <Provider store={store}>
+          <App />
+          <GlobalStyles/>
+        </Provider>
+      </ThemeProvider>
+    </React.StrictMode>,
+    document.getElementById('root')
+  );
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://cra.link/PWA

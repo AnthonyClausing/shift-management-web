@@ -1,98 +1,109 @@
 // import axios from 'axios';
 import { startCase } from 'lodash'
+import { Box, Button, ThemeUICSSObject } from 'theme-ui'
 import React from 'react';
 import Accordion from './Accordion';
-import { RootStateOrAny, useSelector, useDispatch, shallowEqual } from 'react-redux'
+import { RootStateOrAny, connect, InferableComponentEnhancerWithProps } from 'react-redux'
+import type { User } from '../store/slices/userSlice'
+import { Dispatch } from "redux";
 
-function Settings() {
-  interface User {
-    email: string
-    firstName: string
-    lastName: string
-    phone: string
+type ConnectedProps<T> = T extends InferableComponentEnhancerWithProps<infer Props, infer _> ? Props : never
+
+const mapStateToProps = (state: RootStateOrAny, ownProps:any) => ({
+  locations: state.location.locations,
+  users: state.user.users
+})
+
+const mapDispatchToProps = (dispatch: Dispatch, ownProps: any) => {
+  return  { 
+    getUsers: () => dispatch({type: 'user/getUsers'}),
+    setLocations: () => dispatch({type: 'location/setLocations'}),
+    showModal: () => dispatch({type: 'modal/showModal', payload: true})
   }
-  interface Location {
-    name: string
-    formatted_address: string
-    display_address: string
-  }
-  const users = [{ email: 'owner@besttest.com', firstName: 'OwnerOf', lastName: 'BestTest', phone: '347-555-1234'}, { email: 'manager@besttest.com', firstName: 'ManagerOf', lastName: 'BestTest', phone: '347-555-3456'}, { email: 'employee@besttest2.com', firstName: 'EmployeeOf', lastName: 'BestTestTwo', phone: '347-555-7890'}]
-  const locations = [{
-    name: 'Best Test Electronics Super Store',
-    formatted_address: '321 West Avenue Brooklyn, NY 11224',
-    display_address: '321 West Avenue',
-  },{
-    name: 'Best Test Electronics Super Store',
-    formatted_address: '654 West Montague St Brooklyn, NY 11201',
-    display_address: '654 West Montague St',
-  }]  
-  const modalState = useSelector((state:RootStateOrAny) => state.modal, shallowEqual)
-  const dispatch = useDispatch()
-  const openGlobalModal = () => {
-    // possible argument for openGlobalModal function -> {name: '', modalProps:{}, modalComponent?: <Component/>}
-    //open global modal
-    dispatch({type: "modal/showModal", payload: true})
-  }
-  const usersAccordionContent = function() {
-    return (
-      // might be table-fixed with key=data_key val=fraction of space for each th
-      <table className="table-auto w-full">
-        <thead>
-          <tr>
-            {users[0] && Object.keys(users[0]).map((h, idx) =>  (<th key={idx+1234} className="text-left">{startCase(h)}</th>))}
-          </tr>
-          <tr>
-            <th>
-            <button onClick={() => openGlobalModal()}>CLICK hERE</button>
-              </th>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            users[0] &&  users.map((user: User, idx) => {
-              return (
-                <tr key={idx+2345}>
-                  { Object.values(user).map((val, idx) => <td key={idx+3456}>{val}</td>) }
-                </tr>
-              )
-            })
-          }  
-        </tbody>
-      </table>
-    )
-  }
-  const locationsAccordionContent = function() {
-    return (
-      <table className="table-auto w-full">
-        <thead>
-          <tr>
-            {locations[0] && Object.keys(locations[0]).map((h, idx) =>  (<th key={idx+4567} className="text-left">{startCase(h)}</th>))}
-          </tr>
-        </thead>
-        <tbody>
-          {
-            locations[0] &&  locations.map((location: Location, idx) => {
-              return (
-                <tr key={idx+5678}>
-                  { Object.values(location).map((val, idx) => <td key={idx+6789}>{val}</td>) }
-                </tr>
-              )
-            })
-          }
-        </tbody>
-      </table>
-    )
-  }
-  return (
-    <div id="settings">
-      <div id="settings-users">
-        <Accordion title="Users" content={usersAccordionContent()}></Accordion>
-      </div>    
-      <div id="settings-locations">
-        <Accordion title="Locations" content={locationsAccordionContent()}></Accordion>
-      </div>
-    </div>
-  );
 }
 
-export default Settings;
+class Settings extends React.Component<PropsFromRedux> {
+  componentDidMount(){
+    this.props.getUsers()
+    this.props.setLocations()
+  }
+  render() {
+    const openGlobalModal = () => {
+      // possible argument for openGlobalModal function -> {name: '', modalProps:{}, modalComponent?: <Component/>}
+      this.props.showModal()
+    }
+    const tableStyles: ThemeUICSSObject  = {
+      width: '100%',
+      tableLayout: 'auto'
+    }
+    const headerStyles: ThemeUICSSObject  = {
+      textAlign: 'left'
+    }
+    const usersAccordionContent = () => {
+      return (
+        <Box as="table" sx={tableStyles}>
+          <thead>
+            <tr>
+              {this.props.users[0] && Object.keys(this.props.users[0]).map((h, idx) =>  (<Box as="th" key={h + '-header'} sx={headerStyles}>{startCase(h)}</Box>))}
+            </tr>
+            <tr>
+              <th>
+                <Button onClick={() => openGlobalModal()}>CLICK hERE</Button>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              this.props.users[0] &&  this.props.users.map((user: User) => (
+                  <tr key={user.id + '-row'}>
+                    { Object.values(user).map((val, idx) => <td key={user.id + idx + '-data'}>{val}</td>) }
+                  </tr>
+                )
+              )
+            }  
+          </tbody>
+        </Box>
+      )
+    }
+    const locationsAccordionContent = () => {
+      return (
+        <Box as="table" sx={tableStyles}>
+          <thead>
+            <tr>
+              {this.props.locations[0] && Object.keys(this.props.locations[0]).map((h, idx) =>  (<Box as="th" key={idx+4567} sx={{textAlign: 'left'}}>{startCase(h)}</Box>))}
+            </tr>
+            <tr>
+              <th>
+              <Button onClick={() => openGlobalModal()}>CLICK hERE</Button>
+                </th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              this.props.locations[0] &&  this.props.locations.map((location: Location, idx: number) => {
+                return (
+                  <tr key={idx+5678}>
+                    { Object.values(location).map((val, idx) => <td key={idx+6789}>{val}</td>) }
+                  </tr>
+                )
+              })
+            }
+          </tbody>
+        </Box>
+      )
+    }
+    return (
+      <div id="settings">
+        <div id="settings-users">
+          <Accordion title="Users" content={usersAccordionContent()}></Accordion>
+        </div>    
+        <div id="settings-locations">
+          <Accordion title="Locations" content={locationsAccordionContent()}></Accordion>
+        </div>
+      </div>
+    )
+  }
+}
+const connector = connect(mapStateToProps, mapDispatchToProps)
+type PropsFromRedux = ConnectedProps<typeof connector>;
+export default connector(Settings);
