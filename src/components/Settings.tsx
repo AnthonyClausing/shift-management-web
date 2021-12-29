@@ -24,7 +24,6 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps: any) => {
 
 class Settings extends React.Component<PropsFromRedux> {
   componentDidMount(){
-    console.log(this)
     this.props.getUsers()
     this.props.setLocations()
   }
@@ -34,7 +33,7 @@ class Settings extends React.Component<PropsFromRedux> {
       this.props.showModal()
     }
     const tableStyles: ThemeUICSSObject  = {
-      width: '100',
+      width: '100%',
       tableLayout: 'auto'
     }
     const headerStyles: ThemeUICSSObject  = {
@@ -66,32 +65,31 @@ class Settings extends React.Component<PropsFromRedux> {
         </Box>
       )
     }
-    const locationsAccordionContent = function() {
+    const locationsAccordionContent = () => {
       return (
-        <div>Hello</div>
-        // <table sx={tableStyles}>
-        //   <thead>
-        //     <tr>
-        //       {locations[0] && Object.keys(locations[0]).map((h, idx) =>  (<th key={idx+4567} sx={{textAlign: 'left'}}>{startCase(h)}</th>))}
-        //     </tr>
-        //     <tr>
-        //       <th>
-        //       <button onClick={() => openGlobalModal()}>CLICK hERE</button>
-        //         </th>
-        //     </tr>
-        //   </thead>
-        //   <tbody>
-        //     {
-        //       locations[0] &&  locations.map((location: Location, idx) => {
-        //         return (
-        //           <tr key={idx+5678}>
-        //             { Object.values(location).map((val, idx) => <td key={idx+6789}>{val}</td>) }
-        //           </tr>
-        //         )
-        //       })
-        //     }
-        //   </tbody>
-        // </table>
+        <Box as="table" sx={tableStyles}>
+          <thead>
+            <tr>
+              {this.props.locations[0] && Object.keys(this.props.locations[0]).map((h, idx) =>  (<Box as="th" key={idx+4567} sx={{textAlign: 'left'}}>{startCase(h)}</Box>))}
+            </tr>
+            <tr>
+              <th>
+              <Button onClick={() => openGlobalModal()}>CLICK hERE</Button>
+                </th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              this.props.locations[0] &&  this.props.locations.map((location: Location, idx: number) => {
+                return (
+                  <tr key={idx+5678}>
+                    { Object.values(location).map((val, idx) => <td key={idx+6789}>{val}</td>) }
+                  </tr>
+                )
+              })
+            }
+          </tbody>
+        </Box>
       )
     }
     return (
