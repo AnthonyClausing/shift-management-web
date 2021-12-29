@@ -51,14 +51,9 @@ export const theme: Theme = {
       height:'100%',
       width:'100%'
     },
-    html: {
-      fontFamily: 'body',
-      height:'100%',
-      width:'100%'
-    },
     body: {
       margin: '0',
-      minHeight: '100%',
+      height: 'inherit',
       fontFamily: 'body',
       lineHeight: 'body',
       fontWeight: 'body'
@@ -150,6 +145,9 @@ export const theme: Theme = {
     input: {
       display: 'block',
       margin: '0'
+    },
+    div: {
+      height: '100%'
     }
   },
   buttons: {
