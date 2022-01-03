@@ -63,6 +63,7 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.14.176",
+    "craco-alias": "^3.0.1",
     "redux-devtools": "^3.7.0"
   }
 }

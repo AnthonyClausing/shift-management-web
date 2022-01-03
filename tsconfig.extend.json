@@ -1,0 +1,22 @@
+{
+    "compilerOptions":{
+       "baseUrl":"./src",
+       "paths":{
+          "@modals/*":[
+             "./components/modals/*"
+          ],
+          "@slices/*":[
+             "./store/slices/*"
+          ],
+          "@views/*":[
+             "./views/*"
+          ],
+          "@components/*":[
+             "./components/*"
+          ],
+          "@styles/*":[
+             "./styles/*"
+          ]
+       }
+    }
+ }
