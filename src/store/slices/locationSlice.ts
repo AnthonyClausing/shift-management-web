@@ -24,7 +24,7 @@ export const locationSlice = createSlice({
         name: 'Best Test Electronics Super Store',
         formatted_address: '654 West Montague St Brooklyn, NY 11201',
         display_address: '654 West Montague St',
-      }]  
+      }]
       return {...state, locations }
     }
   },
