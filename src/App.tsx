@@ -1,8 +1,8 @@
  /** @jsxImportSource theme-ui */
 import React from 'react';
 // import Auth from './components/Auth'
-import Settings from './components/Settings'
-import ModalBus from './components/ModalBus';
+import Settings from './views/Settings'
+import ModalBus from './views/ModalBus';
 import {Heading, Box} from 'theme-ui'
 function App() {
   return (

@@ -8,7 +8,7 @@ import store from './store'
 import { theme } from './theme'
 import GlobalStyles from './components/GlobalStyles'
 import App from './App';
-import './stylesheets/fonts.css'
+import './styles/stylesheets/fonts.css'
 
   ReactDOM.render(
     <React.StrictMode>
