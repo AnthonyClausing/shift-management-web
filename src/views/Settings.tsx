@@ -1,12 +1,12 @@
 // import axios from 'axios';
 import { startCase } from 'lodash'
-import { Box, Button, ThemeUICSSObject } from 'theme-ui'
-import React from 'react';
-import Accordion from './Accordion';
+import { Box, Button, Flex, Text } from 'theme-ui'
+import React, { MouseEventHandler } from 'react';
+import Accordion from '@components/Accordion';
 import { RootStateOrAny, connect, InferableComponentEnhancerWithProps } from 'react-redux'
-import type { User } from '../store/slices/userSlice'
+import type { User } from '@slices/userSlice'
 import { Dispatch } from "redux";
-
+import { tableStyles, headerStyles } from '@styles/views/settingsStyles'
 type ConnectedProps<T> = T extends InferableComponentEnhancerWithProps<infer Props, infer _> ? Props : never
 
 const mapStateToProps = (state: RootStateOrAny, ownProps:any) => ({
@@ -18,7 +18,7 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps: any) => {
   return  { 
     getUsers: () => dispatch({type: 'user/getUsers'}),
     setLocations: () => dispatch({type: 'location/setLocations'}),
-    showModal: () => dispatch({type: 'modal/showModal', payload: true})
+    showModal: (name: string) => dispatch({type: 'modal/showModal', payload: {show: true, name}})
   }
 }
 
@@ -28,28 +28,19 @@ class Settings extends React.Component<PropsFromRedux> {
     this.props.setLocations()
   }
   render() {
-    const openGlobalModal = () => {
-      // possible argument for openGlobalModal function -> {name: '', modalProps:{}, modalComponent?: <Component/>}
-      this.props.showModal()
+    const openGlobalModal = (modalType: string) => {
+      return (e: React.MouseEvent) => {
+        e.stopPropagation()
+        this.props.showModal(modalType)
+      }
     }
-    const tableStyles: ThemeUICSSObject  = {
-      width: '100%',
-      tableLayout: 'auto'
-    }
-    const headerStyles: ThemeUICSSObject  = {
-      textAlign: 'left'
-    }
+
     const usersAccordionContent = () => {
       return (
         <Box as="table" sx={tableStyles}>
           <thead>
             <tr>
               {this.props.users[0] && Object.keys(this.props.users[0]).map((h, idx) =>  (<Box as="th" key={h + '-header'} sx={headerStyles}>{startCase(h)}</Box>))}
-            </tr>
-            <tr>
-              <th>
-                <Button onClick={() => openGlobalModal()}>CLICK hERE</Button>
-              </th>
             </tr>
           </thead>
           <tbody>
@@ -65,17 +56,27 @@ class Settings extends React.Component<PropsFromRedux> {
         </Box>
       )
     }
+    const usersAccordionTitle = () => {
+      return (
+      <Flex sx={{justifyContent: 'space-between'}}>
+        <Text>Users</Text>
+        <Button onClick={openGlobalModal("SettingsUsersNew")}>Add User</Button>
+      </Flex>)
+    }
+    const locationsAccordionTitle = () => {
+      return (
+      <Flex>
+        <Text>Locations</Text>
+        <Button onClick={openGlobalModal("SettingsLocationsNew")}>Add Location</Button>
+      </Flex>
+      )
+    }
     const locationsAccordionContent = () => {
       return (
         <Box as="table" sx={tableStyles}>
           <thead>
             <tr>
               {this.props.locations[0] && Object.keys(this.props.locations[0]).map((h, idx) =>  (<Box as="th" key={idx+4567} sx={{textAlign: 'left'}}>{startCase(h)}</Box>))}
-            </tr>
-            <tr>
-              <th>
-              <Button onClick={() => openGlobalModal()}>CLICK hERE</Button>
-                </th>
             </tr>
           </thead>
           <tbody>
@@ -95,10 +96,10 @@ class Settings extends React.Component<PropsFromRedux> {
     return (
       <div id="settings">
         <div id="settings-users">
-          <Accordion title="Users" content={usersAccordionContent()}></Accordion>
+          <Accordion title={usersAccordionTitle()} content={usersAccordionContent()}></Accordion>
         </div>    
         <div id="settings-locations">
-          <Accordion title="Locations" content={locationsAccordionContent()}></Accordion>
+          <Accordion title={locationsAccordionTitle()} content={locationsAccordionContent()}></Accordion>
         </div>
       </div>
     )
