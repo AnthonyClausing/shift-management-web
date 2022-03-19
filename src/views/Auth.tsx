@@ -1,7 +1,8 @@
  /** @jsxImportSource theme-ui */
 import axios from 'axios';
 import React, { useState } from 'react';
-import { Button, ThemeUICSSObject } from 'theme-ui'
+import { Button } from 'theme-ui'
+import { inputStyles, authCardStyles, buttonStyles, dividerStyles, dividerTextStyles } from '@styles/views/authStyles' 
 function Auth() {
   enum authType {
     Login = 'login',
@@ -49,51 +50,7 @@ function Auth() {
       formOn: type
     }))
   }
-  const inputStyles: ThemeUICSSObject = {
-    padding: '0.25rem',
-    marginX: 'auto',
-    marginY: '1rem',
-    fontSize: '1.125rem',
-    lineHeight: '1.5rem',
-    borderWidth: '1px',
-    borderColor: 'gray',
-    '&:focus': {
-      borderColor: 'blue'
-    },
-    borderRadius: '0.25rem'
-  }
-  const authCardStyles: ThemeUICSSObject = {
-    color: 'gray',
-    backgroundColor: 'white',
-    paddingX: '0.5rem',
-    marginTop: '1rem',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center'
-  }
-  const buttonStyles: ThemeUICSSObject = {
-    fontWeight: 'bold',
-    borderRadius: '0.25rem',
-    paddingY: '0.25rem',
-    display: 'block',
-    marginX: 'auto',
-    width: '70%'
-  }
-  const dividerStyles: ThemeUICSSObject = {
-    textAlign: 'center',
-    position: 'relative',
-    borderTopWidth: '1px',
-    borderColor: 'gray',
-    marginTop: '1.25rem',
-    marginX: '0.75rem'
-  }
-  const dividerTextStyles: ThemeUICSSObject = {
-    paddingY: '0',
-    paddingX: '0.5rem',
-    position: 'relative',
-    top: '-1rem',
-    bg: 'red'
-  }
+
   return (
     <div id="auth-card" sx={authCardStyles}>
       <div id="card-header" sx={{textAlign: 'center'}}>

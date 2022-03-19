@@ -1,11 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { RootState } from '../'
 
-interface ModalWrapperState {
-  show: boolean;
+export enum ModalName {
+  SettingsUsersNew = "SettingsUsersNew",
+  SettingsLocationsNew = "SettingsLocationsNew"
+}
+export interface ModalWrapperState {
+  show: boolean
+  name: null | keyof typeof ModalName
 }
 const initialState: ModalWrapperState = {
-    show: false
+    show: false,
+    name: null,
 };
 
 const modalWrapperSlice = createSlice({
@@ -13,13 +19,20 @@ const modalWrapperSlice = createSlice({
   initialState,
   reducers: {
     showModal: (state = initialState, action:any) => {
+      //maybe rename to showModalWithProps
       return {
         ...state,
-        show: true,
+        ...action.payload
       };
     },
     hideModal: (state = initialState, action: any) => {
       return {...state, show: false};
+    },
+    clearModal: (state = initialState, action: any) => {
+      return {
+        ...state,
+        name: null,
+      }
     }
   }
 })
